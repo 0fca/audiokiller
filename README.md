@@ -1,5 +1,5 @@
 # audiokiller
-Simple restarter for sound drivers for Linux.
+Simple program for starting favorites apps.
 
 For me it is restarter for pulseaudio, however for u it can be everything, because it justs executes shell commands.
 Data is stored using JSON.

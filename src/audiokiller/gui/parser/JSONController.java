@@ -26,7 +26,7 @@ public class JSONController {
     private static volatile JSONController JSON;
     static BufferedReader br = null;
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static String NAME = "client_data.json";
+    private static String NAME = "settings.json";
     
     public static synchronized JSONController getInstance(){
         if(JSON == null){
@@ -70,7 +70,7 @@ public class JSONController {
     }
    
     /**
-     * Left for testing perpouses, NOT an entry point!.
+     * Left for testing purposes, NOT an entry point!.
      * 
      */
     @Deprecated

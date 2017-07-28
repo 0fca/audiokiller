@@ -10,7 +10,7 @@ package audiokiller.gui.parser;
  * @author obsidiam
  */
 public class SettingsDataWrapper {
-    private String COMM,PATH;
+    private String COMM,PATH,NAMES;
  
     public void setCommand(String comm){
         COMM = comm;
@@ -20,11 +20,4 @@ public class SettingsDataWrapper {
         return COMM;
     }
     
-    public void setAutoStartPath(String autoStart){
-        PATH = autoStart;
-    }
-    
-    public String getAutoStartPath(){
-        return PATH;
-    }
 }

@@ -24,8 +24,8 @@ import javax.swing.JOptionPane;
  * @author obsidiam
  */
 public class AudioKiller {
-    private static String[] settings = new String[4];
-    private static String PATH = System.getProperty("user.home")+"/audiokiller/",COMM = "",AUTO= "";
+    private static String[] settings = new String[5];
+    private static String PATH = System.getProperty("user.home")+"/audiokiller/",COMM = "";
     
     /**
      * @param args the command line arguments
@@ -46,10 +46,9 @@ public class AudioKiller {
         final PopupMenu popup = new PopupMenu();
         final TrayIcon trayIcon = new TrayIcon(new ImageIcon(AudioKiller.class.getClass().getResource("/audiokiller/images/audio-speakers.png")).getImage());
         final SystemTray tray = SystemTray.getSystemTray();
-       
+        trayIcon.setToolTip("StartUp!");
         // Create a pop-up menu components
         MenuItem aboutItem = new MenuItem("About");
-        MenuItem restart = new MenuItem("Restart");
         MenuItem exitItem = new MenuItem("Exit");
         MenuItem settingsItem = new MenuItem("Settings");
         
@@ -57,7 +56,6 @@ public class AudioKiller {
             settings[0] = "1";
             settings[1] = COMM;
             settings[2] = PATH;
-            settings[3] = AUTO;
             AudioKillerGUI.main(settings);
         });
       
@@ -65,29 +63,36 @@ public class AudioKiller {
             settings[0] = "0";
             settings[1] = COMM;
             settings[2] = PATH;
-            settings[3] = AUTO;
             AudioKillerGUI.main(settings);
         });
         
-        restart.addActionListener(restart_action ->{
-            Runtime r = Runtime.getRuntime();
-            String[] cmds = COMM.split(",");
-            try {
-                for(int i = 0; i < cmds.length; i++){
-                    r.exec(cmds[i]);
+        popup.add(aboutItem);
+        popup.add(settingsItem);
+        popup.addSeparator();
+        
+        for(String item : COMM.split(";")){
+            String name = item.split(":")[0];
+            String cmd = item.split(":")[1];
+            
+            MenuItem mi = new MenuItem(name);
+            mi.addActionListener(listener ->{
+                Runtime r = Runtime.getRuntime();
+                String[] cmds = cmd.split(",");
+                try {
+                    for(int i = 0; i < cmds.length; i++){
+                        r.exec(cmds[i]);
+                    }
+                } catch (IOException ex) {
+                   JOptionPane.showMessageDialog(null, "Bad command given!","Error",JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (IOException ex) {
-               JOptionPane.showMessageDialog(null, "Bad command given!","Error",JOptionPane.ERROR_MESSAGE);
-            }
-        });
+            });
+            popup.add(mi);
+        }
         
         exitItem.addActionListener(exit_action ->{
             System.exit(0);
         });
-        popup.add(aboutItem);
-        popup.add(settingsItem);
-        popup.addSeparator();
-        popup.add(restart);
+       
         popup.add(exitItem);
        
         trayIcon.setPopupMenu(popup);
@@ -105,7 +110,6 @@ public class AudioKiller {
             parser.setFileName(System.getProperty("user.home")+"/audiokiller/settings.json");
             SettingsDataWrapper settings = parser.readSettingsData();
             COMM = settings.getCommand();
-            AUTO = settings.getAutoStartPath();
         }
     }
 }

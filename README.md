@@ -1,4 +1,4 @@
-# StartUp! (oryginally audiokiller)
+# StartUp! (originally audiokiller)
 Simple program for starting favorites apps.
 
 For me it is restarter for pulseaudio, however for u it can be everything, because it justs executes shell commands.
